@@ -11,7 +11,7 @@ class PersonnagesManager {
     } // EOF __construct
 
     // Requête create en BDD
-    public function add(Personnages $personnages) {
+    public function add(Personnages $personnages) { 
         // Préparation de la requête d'insertion
         $add = $this->_db->prepare('INSERT INTO personnages(nom, niveau, experiences, forcePersonnage, vitalitePersonnage, degats)
                                     VALUES(:nom, :niveau, :experiences, :forcePersonnage, :vitalitePersonnage, :degats)');

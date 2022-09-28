@@ -8,9 +8,13 @@
     spl_autoload_register('autoLoader');
 
     // Connexion a la BDD
-$db = new PDO('mysql:host=localhost;dbname=rpgphp', 'root', '');
-// Gestions des erreurs
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $options = array(
+        PDO::MYSQL_ATTR_SSL_CA => "C:\\php\\cacert-2022-07-19.pem",
+      );
+        $db = new PDO('mysql:host=aws-eu-west-2.connect.psdb.cloud;dbname=dec', 'lrh1xr5qxma04ytnqv7u', 'pscale_pw_fwyhvzrZ36styU22mrWorRvQTAcv2VadB4XwCTeK86v', $options);      
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+
+// Gestions des erreurs
 
 ?>
