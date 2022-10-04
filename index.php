@@ -140,7 +140,7 @@ elseif(isset($_GET['frapper'])) { // Si on a cliquer sur une personnage pour le 
           else {
             foreach($personnage as $unPersonnage)
               echo '<a href="?frapper=', $unPersonnage->getId(), '">', htmlspecialchars($unPersonnage->getNom()), 
-              '</a> (dégâts : ', $unPersonnage->degats(), ')<br/>';
+              '</a> (vitalité : ', $unPersonnage->getVitalitePersonnage(), ')<br/>';
           }
           ?>
         </p>

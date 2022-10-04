@@ -33,10 +33,10 @@ class PersonnagesManager
         // On hydrate(initalise) les valeurs du personnages
         $personnages->hydrate([
             'id' => $this->_db->lastInsertId(),
-            'niveau' => 1,
-            'experiences' => 1,
-            'forcePersonnage' => 50,
-            'vitalitePersonnage' => 100,
+            'niveau' => ':niveau',
+            'experiences' => ':experiences',
+            'forcePersonnage' => ':forcePersonnage',
+            'vitalitePersonnage' => ':vitalitePersonnage',
 
         ]); // EOF hydrate
     } // EOF add
@@ -51,7 +51,7 @@ class PersonnagesManager
     public function delete(Personnages $personnages)
     {
         //Execution d'une requête delete
-        $this->_db->exec('DELETE FROM personnages WHERE id = ' . $personnages->id());
+        $this->_db->execute('DELETE FROM personnages WHERE id = ' . $personnages->getId());
     } // EOF delete
 
     public function exists($infos)

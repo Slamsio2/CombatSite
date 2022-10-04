@@ -17,15 +17,14 @@ class Personnages {
 
     //Constructeur
     public function __construct(array $donnees) {
-        $this->hydrate($donnees);
-        $this->_niveau = 1;
-        $this->_experiences =1;
-        $this->_forcePersonnage = 1;
-        $this->_vitalitePersonnage = 1;
-        $this->_degats = 1;
-        
-
-
+        foreach ($donnees as $key => $value)
+        {
+            $mutateur = 'set' .ucfirst($key);
+            if (method_exists($this, $mutateur))
+            {
+                $this-> $mutateur($value);
+            }
+        }
     } // EOF __construct
 
     public function frapper(Personnages $personnages) {
@@ -35,17 +34,20 @@ class Personnages {
         // On indique au personnage qu'il doit recevoir des dégats
         // En fonction des dégats reçu on retourne la valeur renvoyée par
         // la methode : self::MORT_PERSONNAGE ou self::COUP_PERSONNAGE
-        $vitalitePersonnage = $this->_vitalitePersonnage - $personnages->degats();
-        print(self:: getVitalitePersonnage());
-        return $vitalitePersonnage;
-        
+        $personnages->setVitalitePersonnage($personnages->getVitalitePersonnage() - $this->getForcePersonnage());
+        print($personnages->getVitalitePersonnage());   
+        if($personnages->getVitalitePersonnage() <= 0) {
+            $this->getId->delete;
+            return self::MORT_PERSONNAGE;
+        }
+        return self::COUP_PERSONNAGE;     
     } // EOF frapper
 
     
     public function Degats() {
         $this->_degats += 5;
         // SI on subit 100 degats ou plus le personnage meurt
-        if($this->_degats >= 100) {
+        if(self::getVitalitePersonnage() < 0) {
             return self::MORT_PERSONNAGE;
         }
         // Sinon, le personnage a bien était frapper et a recu le nombre de dégats indiqué
@@ -89,6 +91,7 @@ class Personnages {
         if($id > 0) {
             $this->_id = $id;
         }
+        return $id;
 
     } // EOF setId
 
@@ -98,6 +101,7 @@ class Personnages {
             $this->_nom = $nom;
 
         }
+        return $this;
     } // EOF setNom
 
     public function setNiveau($niveau) {
@@ -128,17 +132,18 @@ class Personnages {
         if($forcePersonnage >=1 && $forcePersonnage <= 100) {
             $this->_forcePersonnage = $forcePersonnage;
         }
+        return $this;
     } // setForcePersonnage
 
     public function setVitalitePersonnage($vitalitePersonnage) {
         // On force cette caracteristique en int
-        $vitalitePersonnage = (int) $vitalitePersonnage;
+        $this->_vitalitePersonnage = (int) $vitalitePersonnage;
 
         // On vérifie que la vitalité du personnage est comprise entre 1 et 100
-        if($vitalitePersonnage >= 1 && $vitalitePersonnage <= 100) {
-            $this->_vitalitePersonnage = $vitalitePersonnage;
-
-        }
+ //       if($vitalitePersonnage >= 1 && $vitalitePersonnage <= 100) {
+//            $this->_vitalitePersonnage = $vitalitePersonnage;
+        return $this;
+        //}
     } // EOF setVitalitePersonnage
 
     public function setDegats($degats) {
@@ -148,6 +153,7 @@ class Personnages {
             $this->_degats = $degats;
         }
         
+        return $this;
     } // EOF setDegats
 
 } // EOF Personnages
