@@ -29,17 +29,20 @@ class Personnages {
     } // EOF __construct
 
     public function frapper(Personnages $personnages) {
-        if($personnages->id() == $this->_id) {
+        if($personnages->getId() == $this->_id) {
             return self:: CEST_MOI;
         } 
         // On indique au personnage qu'il doit recevoir des dégats
         // En fonction des dégats reçu on retourne la valeur renvoyée par
         // la methode : self::MORT_PERSONNAGE ou self::COUP_PERSONNAGE
-        return $personnages->degatsRecu();
+        $vitalitePersonnage = $this->_vitalitePersonnage - $personnages->degats();
+        print(self:: getVitalitePersonnage());
+        return $vitalitePersonnage;
+        
     } // EOF frapper
 
     
-    public function degatsRecu() {
+    public function Degats() {
         $this->_degats += 5;
         // SI on subit 100 degats ou plus le personnage meurt
         if($this->_degats >= 100) {
@@ -47,7 +50,7 @@ class Personnages {
         }
         // Sinon, le personnage a bien était frapper et a recu le nombre de dégats indiqué
         return self::COUP_PERSONNAGE;
-    } // EOF degatsRecu
+    } // EOF getDegats
 
     // Fonction qui vérifie si le nom est valide
     public function nomValide() {
@@ -70,13 +73,13 @@ class Personnages {
     } // EOF hydrate
 
     // Listes des Getters
-    public function id() { return $this->_id; } // EOF id
-    public function nom() { return $this->_nom; } // EOF nom
-    public function niveau() { return $this->_niveau; } // EOF niveau
-    public function experiences() { return $this->_experiences; } // EOF experiences
-    public function forcePersonnage() { return $this->_forcePersonnage; } // EOF forcePersonnage
-    public function vitalitePersonnage() { return $this->_vitalitePersonnage; } // EOF vitalitePersonnage
-    public function degats() { return $this->_degats; } // EOF degats
+    public function getId() { return $this->_id; } // EOF id
+    public function getNom() { return $this->_nom; } // EOF nom
+    public function getNiveau() { return $this->_niveau; } // EOF niveau
+    public function getExperiences() { return $this->_experiences; } // EOF experiences
+    public function getForcePersonnage() { return $this->_forcePersonnage; } // EOF forcePersonnage
+    public function getVitalitePersonnage() { return $this->_vitalitePersonnage; } // EOF vitalitePersonnage
+    //public function degats() { return $this->_degats; } // EOF degats
 
     // Listes des Setters
     public function setId($id) {

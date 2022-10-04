@@ -33,7 +33,7 @@ if(isset($_POST['creer']) && isset($_POST['nom'])) {
     $message = 'Le nom choisi est invalide.';
     unset($personnages);
   }
-  elseif($manager->personnagesExists($personnages->nom())) {
+  elseif($manager->exists($personnages->getNom())) {
 
     $message = 'Le nom du personnage est déjà pris.';
     unset($personnages);
@@ -46,8 +46,8 @@ if(isset($_POST['creer']) && isset($_POST['nom'])) {
 // Si on veut utiliser ce personnage
 elseif(isset($_POST['utiliser']) && isset($_POST['nom'])) {
   // Si le personnage existe
-  if($manager->personnagesExists($_POST['nom'])) {
-    $personnages = $manager->getBdd($_POST['nom']);
+  if($manager->exists($_POST['nom'])) {
+    $personnages = $manager->getOne($_POST['nom']);
   } 
   else {
     // Si le personnage n'existe pas, on affiche un message
@@ -66,7 +66,7 @@ elseif(isset($_GET['frapper'])) { // Si on a cliquer sur une personnage pour le 
       $message = 'Le personnage que vous voulez frapper n\'existe pas !';
     }
     else {
-      $personnageAFrapper = $manager->get((int) $_GET['frapper']);
+      $personnageAFrapper = $manager->getOne((int) $_GET['frapper']);
 
       // On stock dans $messageRetour les éventuelles erreurs ou messages que renvoie la méthode frapper
       $messageRetour = $personnages->frapper($personnageAFrapper);
@@ -120,11 +120,11 @@ elseif(isset($_GET['frapper'])) { // Si on a cliquer sur une personnage pour le 
         <legend>Mes informations</legend>
         <!--Affichage des infos sur le personnage -->
         <p>
-          Nom : <?php echo htmlspecialchars($personnages->nom()) ?><br/>
-          Niveau : <?php echo $personnages->niveau() ?><br/>
-          Experiences : <?php echo $personnages->experiences() ?><br/>
-          Force du personnage : <?php echo $personnages->forcePersonnage() ?><br/>
-          Vitalité du personnage : <?php echo $personnages->vitalitePersonnage() ?><br/>
+          Nom : <?php echo htmlspecialchars($personnages->getNom()) ?><br/>
+          Niveau : <?php echo $personnages->getNiveau() ?><br/>
+          Experiences : <?php echo $personnages->getExperiences() ?><br/>
+          Force du personnage : <?php echo $personnages->getForcePersonnage() ?><br/>
+          Vitalité du personnage : <?php echo $personnages->getVitalitePersonnage() ?><br/>
           Dégats du personnage : <?php echo $personnages->degats() ?><br/>
         </p>
       </fieldset>
@@ -132,14 +132,14 @@ elseif(isset($_GET['frapper'])) { // Si on a cliquer sur une personnage pour le 
         <legend>Qui frapper ?</legend>
         <p>
           <?php 
-          $personnage = $manager->getList($personnages->nom());
+          $personnage = $manager->getList($personnages->getNom());
 
           if(empty($personnage)) {
             echo ' Personne a frapper !';
           }
           else {
             foreach($personnage as $unPersonnage)
-              echo '<a href="?frapper=', $unPersonnage->id(), '">', htmlspecialchars($unPersonnage->nom()), 
+              echo '<a href="?frapper=', $unPersonnage->getId(), '">', htmlspecialchars($unPersonnage->getNom()), 
               '</a> (dégâts : ', $unPersonnage->degats(), ')<br/>';
           }
           ?>
